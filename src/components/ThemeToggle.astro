@@ -1,0 +1,32 @@
+---
+// Client script. Runs in browser only.
+---
+
+<button
+    id="theme-toggle"
+    class="p-2 rounded hover:bg-gray-200/50 dark:hover:bg-gray-800/50 transition"
+    aria-label="Toggle theme"
+>
+    <span id="theme-icon">🌙</span>
+</button>
+
+<script>
+    const html = document.documentElement;
+    const icon = document.getElementById("theme-icon");
+
+    const apply = (dark) => {
+        html.classList.toggle("dark", dark);
+        icon.textContent = dark ? "🌙" : "☀️";
+        localStorage.theme = dark ? "dark" : "light";
+    };
+
+    const stored = localStorage.theme;
+    const sys = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    apply(stored === "dark" || (!stored && sys));
+
+    document
+        .getElementById("theme-toggle")
+        .addEventListener("click", () =>
+            apply(!html.classList.contains("dark")),
+        );
+</script>
